@@ -1,5 +1,11 @@
+"use client";
 import { useState } from "react";
 import { addBuyer } from "../lib/presale";
+
+const maskWallet = (wallet: string) => {
+  if (wallet.length < 10) return wallet;
+  return `${wallet.slice(0, 6)}....${wallet.slice(-4)}`;
+};
 
 export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
   const [amount, setAmount] = useState(0);
@@ -7,7 +13,10 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
 
   const handleBuy = (stablecoin: string) => {
     if (!wallet) return setMessage("Connect wallet first!");
-    addBuyer(wallet, amount);
+    if (amount <= 0) return;
+
+    addBuyer(maskWallet(wallet), amount);
+
     setMessage(`You bought $${amount} $VTY with ${stablecoin}`);
     setAmount(0);
   };
@@ -37,35 +46,8 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
       />
 
       <div style={{ display: "flex", justifyContent: "space-around", marginTop: "10px" }}>
-        <button
-          onClick={() => handleBuy("USDT")}
-          style={{
-            padding: "8px 12px",
-            background: "linear-gradient(270deg, #4facfe, #00f2fe)",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            color: "#fff",
-            fontWeight: "bold"
-          }}
-        >
-          Buy with USDT
-        </button>
-
-        <button
-          onClick={() => handleBuy("USDC")}
-          style={{
-            padding: "8px 12px",
-            background: "linear-gradient(270deg, #ff6a00, #ee0979)",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            color: "#fff",
-            fontWeight: "bold"
-          }}
-        >
-          Buy with USDC
-        </button>
+        <button onClick={() => handleBuy("USDT")}>Buy with USDT</button>
+        <button onClick={() => handleBuy("USDC")}>Buy with USDC</button>
       </div>
 
       {message && <p style={{ marginTop: "15px", color: "#4facfe" }}>{message}</p>}
