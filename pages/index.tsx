@@ -13,18 +13,28 @@ export default function Home() {
       fontFamily: "Arial, sans-serif",
       background: "#0a0f25",
       minHeight: "100vh",
+      width: "100%",
       color: "#fff",
       display: "flex",
-      flexDirection: "column",
+      justifyContent: "center",
       alignItems: "center",
-      padding: "40px 20px",
       position: "relative",
-      overflow: "hidden"
+      overflow: "hidden",
+      padding: "20px"
     }}>
       {/* Animirani nodovi u pozadini */}
       <NetworkNodes />
 
-      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "500px", textAlign: "center" }}>
+      <div style={{
+        position: "relative",
+        zIndex: 1,
+        width: "100%",
+        maxWidth: "500px",
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+      }}>
         <img src="/logo.jpg" alt="Verity Logo" style={{ width: "150px", marginBottom: "30px" }} />
         
         <h1 style={{ marginBottom: "10px" }}>VERITY Presale</h1>
