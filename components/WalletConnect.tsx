@@ -1,22 +1,33 @@
 import { useState } from "react";
 
-export const WalletConnect = () => {
-  const [connected, setConnected] = useState(false);
+export const WalletConnect = ({ onConnect }: { onConnect: (wallet: string) => void }) => {
   const [wallet, setWallet] = useState<string | null>(null);
 
   const connectWallet = () => {
-    // Simulacija walleta
-    setWallet("DevnetWallet123...");
-    setConnected(true);
+    const demoWallet = "0x" + Math.random().toString(36).substring(2, 10) + "..." + Math.random().toString(36).substring(2, 6);
+    setWallet(demoWallet);
+    onConnect(demoWallet);
   };
 
   return (
-    <div>
-      {connected ? (
-        <div>Connected: {wallet}</div>
+    <div style={{ marginBottom: "20px", textAlign: "center" }}>
+      {wallet ? (
+        <p style={{ color: "#4facfe" }}>Connected wallet: <b>{wallet}</b></p>
       ) : (
-        <button onClick={connectWallet} style={{ padding: "8px 16px" }}>
-          Connect Wallet
+        <button
+          onClick={connectWallet}
+          style={{
+            padding: "10px 20px",
+            background: "linear-gradient(270deg, #4facfe, #00f2fe)",
+            border: "none",
+            borderRadius: "8px",
+            color: "#fff",
+            fontWeight: "bold",
+            cursor: "pointer",
+            marginBottom: "20px"
+          }}
+        >
+          Connect Wallet (Demo)
         </button>
       )}
     </div>

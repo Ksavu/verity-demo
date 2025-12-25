@@ -1,34 +1,74 @@
 import { useState } from "react";
 import { addBuyer } from "../lib/presale";
 
-export const BuyPanel = () => {
+export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState("");
 
   const handleBuy = (stablecoin: string) => {
-    const wallet = "demo" + Math.random().toString(36).slice(2, 10);
+    if (!wallet) return setMessage("Connect wallet first!");
     addBuyer(wallet, amount);
-    window.dispatchEvent(new Event("presale_update"));
-    setMessage(`You bought $${amount} worth of $VTY with ${stablecoin}!`);
+    setMessage(`You bought $${amount} $VTY with ${stablecoin}`);
     setAmount(0);
   };
 
   return (
-    <div style={{ marginTop: "20px", textAlign: "center" }}>
+    <div style={{
+      background: "#111d33",
+      padding: "30px",
+      borderRadius: "12px",
+      textAlign: "center",
+      width: "300px",
+      boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
+      marginBottom: "20px"
+    }}>
       <input
         type="number"
         placeholder="Enter USD amount"
         value={amount}
         onChange={(e) => setAmount(Number(e.target.value))}
-        style={{ padding: "8px", marginRight: "8px", width: "120px" }}
+        style={{
+          width: "80%",
+          padding: "8px",
+          margin: "10px 0",
+          borderRadius: "6px",
+          border: "1px solid #4facfe"
+        }}
       />
-      <button onClick={() => handleBuy("USDT")} style={{ padding: "8px 12px", marginRight: "5px" }}>
-        Buy with USDT
-      </button>
-      <button onClick={() => handleBuy("USDC")} style={{ padding: "8px 12px" }}>
-        Buy with USDC
-      </button>
-      {message && <p style={{ marginTop: "10px", color: "#4facfe" }}>{message}</p>}
+
+      <div style={{ display: "flex", justifyContent: "space-around", marginTop: "10px" }}>
+        <button
+          onClick={() => handleBuy("USDT")}
+          style={{
+            padding: "8px 12px",
+            background: "linear-gradient(270deg, #4facfe, #00f2fe)",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            color: "#fff",
+            fontWeight: "bold"
+          }}
+        >
+          Buy with USDT
+        </button>
+
+        <button
+          onClick={() => handleBuy("USDC")}
+          style={{
+            padding: "8px 12px",
+            background: "linear-gradient(270deg, #ff6a00, #ee0979)",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            color: "#fff",
+            fontWeight: "bold"
+          }}
+        >
+          Buy with USDC
+        </button>
+      </div>
+
+      {message && <p style={{ marginTop: "15px", color: "#4facfe" }}>{message}</p>}
     </div>
   );
 };
