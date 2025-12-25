@@ -1,5 +1,5 @@
 import { useState } from "react";
-import WalletConnect from "../components/WalletConnect";
+import { WalletConnect } from "../components/WalletConnect";
 import { ProgressBar } from "../components/ProgressBar";
 import { BuyPanel } from "../components/BuyPanel";
 import AdminPanel from "../components/AdminPanel";
