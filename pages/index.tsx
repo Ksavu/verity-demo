@@ -1,4 +1,5 @@
 import { useState } from "react";
+import NetworkNodes from "../components/NetworkNodes";
 import { WalletConnect } from "../components/WalletConnect";
 import { ProgressBar } from "../components/ProgressBar";
 import { BuyPanel } from "../components/BuyPanel";
@@ -16,24 +17,31 @@ export default function Home() {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      padding: "40px 20px"
+      padding: "40px 20px",
+      position: "relative",
+      overflow: "hidden"
     }}>
-      <img src="/logo.jpg" alt="Verity Logo" style={{ width: "150px", marginBottom: "30px" }} />
-      
-      <h1 style={{ marginBottom: "10px" }}>VERITY Presale</h1>
-      <p style={{ marginBottom: "30px", fontSize: "18px" }}>1 $VTY = 1 USD</p>
+      {/* Animirani nodovi u pozadini */}
+      <NetworkNodes />
 
-      {/* Wallet connect */}
-      <WalletConnect onConnect={(w) => setWallet(w)} />
+      <div style={{ position: "relative", zIndex: 1, width: "100%", maxWidth: "500px", textAlign: "center" }}>
+        <img src="/logo.jpg" alt="Verity Logo" style={{ width: "150px", marginBottom: "30px" }} />
+        
+        <h1 style={{ marginBottom: "10px" }}>VERITY Presale</h1>
+        <p style={{ marginBottom: "30px", fontSize: "18px" }}>1 $VTY = 1 USD</p>
 
-      {/* Progress bar */}
-      <ProgressBar />
+        {/* Wallet connect */}
+        <WalletConnect onConnect={(w) => setWallet(w)} />
 
-      {/* Buy panel */}
-      <BuyPanel wallet={wallet} />
+        {/* Progress bar */}
+        <ProgressBar />
 
-      {/* Admin panel */}
-      <AdminPanel />
+        {/* Buy panel */}
+        <BuyPanel wallet={wallet} />
+
+        {/* Admin panel */}
+        <AdminPanel />
+      </div>
     </div>
   );
 }

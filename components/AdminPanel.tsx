@@ -1,16 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
-import { getBuyers, Buyer } from "../lib/presale";
+import { useEffect, useState } from "react";
 
 export default function AdminPanel() {
-  const [buyers, setBuyers] = useState<Buyer[]>([]);
-
-  const refresh = () => setBuyers(getBuyers());
+  const [highlight, setHighlight] = useState(false);
 
   useEffect(() => {
-    refresh();
-    window.addEventListener("presale_update", refresh);
-    return () => window.removeEventListener("presale_update", refresh);
+    const interval = setInterval(() => setHighlight((prev) => !prev), 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -20,14 +16,34 @@ export default function AdminPanel() {
       borderRadius: "12px",
       width: "350px",
       color: "#fff",
-      marginTop: "20px"
+      marginTop: "20px",
+      textAlign: "center",
+      boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
+      transition: "all 0.3s"
     }}>
-      <h2>Buyers</h2>
-      {buyers.map((b, i) => (
-        <div key={i}>
-          {b.wallet.slice(0, 8)}...{b.wallet.slice(-4)} — {b.amountUSD} USD
-        </div>
-      ))}
+      <h2>Verity Network</h2>
+      <p style={{ marginTop: "10px", fontSize: "16px", lineHeight: "1.5" }}>
+        Unlock{" "}
+        <span style={{
+          color: highlight ? "#4facfe" : "#00f2fe",
+          fontWeight: "bold",
+          transition: "color 0.5s"
+        }}>
+          privileged access
+        </span>{" "}
+        to the Verity Network.<br/>
+        Be among the first to explore our decentralized ecosystem.<br/>
+        Early entry means{" "}
+        <span style={{
+          color: highlight ? "#ff6a00" : "#ee0979",
+          fontWeight: "bold",
+          transition: "color 0.5s"
+        }}>
+          exclusive opportunities
+        </span>{" "}
+        and insights.<br/>
+        Join now and experience the future of blockchain innovation.
+      </p>
     </div>
   );
 }
