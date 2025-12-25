@@ -20,14 +20,12 @@ export default function AdminPanel() {
       borderRadius: "12px",
       width: "350px",
       color: "#fff",
-      marginTop: "20px",
-      boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)"
+      marginTop: "20px"
     }}>
-      <h2 style={{ marginBottom: "15px" }}>Admin Panel</h2>
-      {buyers.length === 0 && <p>No purchases yet</p>}
+      <h2>Admin Panel</h2>
       {buyers.map((b, i) => (
-        <div key={i} style={{ marginBottom: "8px" }}>
-          {b.wallet.slice(0, 8)}...{b.wallet.slice(-4)} — ${b.amountUSD} USD
+        <div key={i}>
+          {b.wallet.slice(0, 8)}...{b.wallet.slice(-4)} — {b.amountUSD} USD
         </div>
       ))}
     </div>

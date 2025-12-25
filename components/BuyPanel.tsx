@@ -1,14 +1,12 @@
 "use client";
 import { useState } from "react";
 import { addBuyer } from "../lib/presale";
-import usdtIcon from "../public/usdt.png";
-import usdcIcon from "../public/usdc.png";
 
 export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState("");
 
-  const handleBuy = (stablecoin: "USDT" | "USDC") => {
+  const handleBuy = (stablecoin: string) => {
     if (!wallet) return setMessage("Connect wallet first!");
     addBuyer(wallet, amount);
     setMessage(`You bought $${amount} $VTY with ${stablecoin}`);
@@ -21,7 +19,7 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
       padding: "30px",
       borderRadius: "12px",
       textAlign: "center",
-      width: "300px",
+      width: "320px",
       boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
       marginBottom: "20px"
     }}>
@@ -44,7 +42,7 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
           onClick={() => handleBuy("USDT")}
           style={{
             padding: "8px 12px",
-            background: "#26a17b",
+            background: "#26A17B", // USDT green
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
@@ -52,18 +50,18 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
             fontWeight: "bold",
             display: "flex",
             alignItems: "center",
-            gap: "6px"
+            gap: "5px"
           }}
         >
-          <img src={usdtIcon.src} alt="USDT" style={{ width: "20px" }} />
-          USDT
+          <img src="/usdt.png" alt="USDT" style={{ width: "16px", height: "16px" }} />
+          Buy with USDT
         </button>
 
         <button
           onClick={() => handleBuy("USDC")}
           style={{
             padding: "8px 12px",
-            background: "#2775ca",
+            background: "#1E90FF", // USDC blue
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
@@ -71,11 +69,11 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
             fontWeight: "bold",
             display: "flex",
             alignItems: "center",
-            gap: "6px"
+            gap: "5px"
           }}
         >
-          <img src={usdcIcon.src} alt="USDC" style={{ width: "20px" }} />
-          USDC
+          <img src="/usdc.png" alt="USDC" style={{ width: "16px", height: "16px" }} />
+          Buy with USDC
         </button>
       </div>
 

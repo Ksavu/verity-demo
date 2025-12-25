@@ -5,7 +5,7 @@ import { BuyPanel } from "../components/BuyPanel";
 import AdminPanel from "../components/AdminPanel";
 
 export default function Home() {
-  const [wallet, setWallet] = useState<string | null>("xgvdjxb2324kjckf"); // demo wallet
+  const [wallet, setWallet] = useState<string | null>(null); // demo wallet
 
   return (
     <div style={{
@@ -19,15 +19,20 @@ export default function Home() {
       padding: "40px 20px"
     }}>
       <img src="/logo.jpg" alt="Verity Logo" style={{ width: "150px", marginBottom: "30px" }} />
+      
       <h1 style={{ marginBottom: "10px" }}>$VTY Token Presale</h1>
       <p style={{ marginBottom: "30px", fontSize: "18px" }}>1 $VTY = 1 USD</p>
 
-      <WalletConnect wallet={wallet} setWallet={setWallet} />
+      {/* Wallet connect */}
+      <WalletConnect onConnect={(w) => setWallet(w)} />
 
+      {/* Progress bar */}
       <ProgressBar />
 
+      {/* Buy panel */}
       <BuyPanel wallet={wallet} />
 
+      {/* Admin panel */}
       <AdminPanel />
     </div>
   );
