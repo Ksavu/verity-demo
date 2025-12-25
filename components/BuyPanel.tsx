@@ -19,7 +19,7 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
       padding: "30px",
       borderRadius: "12px",
       textAlign: "center",
-      width: "320px",
+      width: "300px",
       boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
       marginBottom: "20px"
     }}>
@@ -42,38 +42,30 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
           onClick={() => handleBuy("USDT")}
           style={{
             padding: "8px 12px",
-            background: "#26A17B", // USDT green
+            background: "linear-gradient(270deg, #26a17b, #1abc5b)", // USDT green
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
             color: "#fff",
-            fontWeight: "bold",
-            display: "flex",
-            alignItems: "center",
-            gap: "5px"
+            fontWeight: "bold"
           }}
         >
-          <img src="/usdt.png" alt="USDT" style={{ width: "16px", height: "16px" }} />
-          Buy with USDT
+          🟢 USDT
         </button>
 
         <button
           onClick={() => handleBuy("USDC")}
           style={{
             padding: "8px 12px",
-            background: "#1E90FF", // USDC blue
+            background: "linear-gradient(270deg, #0072ce, #00a3ff)", // USDC blue
             border: "none",
             borderRadius: "8px",
             cursor: "pointer",
             color: "#fff",
-            fontWeight: "bold",
-            display: "flex",
-            alignItems: "center",
-            gap: "5px"
+            fontWeight: "bold"
           }}
         >
-          <img src="/usdc.png" alt="USDC" style={{ width: "16px", height: "16px" }} />
-          Buy with USDC
+          🔵 USDC
         </button>
       </div>
 
