@@ -1,22 +1,16 @@
 "use client";
 import { useState } from "react";
 import { addBuyer } from "../lib/presale";
-
-const maskWallet = (wallet: string) => {
-  if (wallet.length < 10) return wallet;
-  return `${wallet.slice(0, 6)}....${wallet.slice(-4)}`;
-};
+import usdtIcon from "../public/usdt.png";
+import usdcIcon from "../public/usdc.png";
 
 export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
   const [amount, setAmount] = useState(0);
   const [message, setMessage] = useState("");
 
-  const handleBuy = (stablecoin: string) => {
+  const handleBuy = (stablecoin: "USDT" | "USDC") => {
     if (!wallet) return setMessage("Connect wallet first!");
-    if (amount <= 0) return;
-
-    addBuyer(maskWallet(wallet), amount);
-
+    addBuyer(wallet, amount);
     setMessage(`You bought $${amount} $VTY with ${stablecoin}`);
     setAmount(0);
   };
@@ -46,8 +40,43 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
       />
 
       <div style={{ display: "flex", justifyContent: "space-around", marginTop: "10px" }}>
-        <button onClick={() => handleBuy("USDT")}>Buy with USDT</button>
-        <button onClick={() => handleBuy("USDC")}>Buy with USDC</button>
+        <button
+          onClick={() => handleBuy("USDT")}
+          style={{
+            padding: "8px 12px",
+            background: "#26a17b",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            color: "#fff",
+            fontWeight: "bold",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px"
+          }}
+        >
+          <img src={usdtIcon.src} alt="USDT" style={{ width: "20px" }} />
+          USDT
+        </button>
+
+        <button
+          onClick={() => handleBuy("USDC")}
+          style={{
+            padding: "8px 12px",
+            background: "#2775ca",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            color: "#fff",
+            fontWeight: "bold",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px"
+          }}
+        >
+          <img src={usdcIcon.src} alt="USDC" style={{ width: "20px" }} />
+          USDC
+        </button>
       </div>
 
       {message && <p style={{ marginTop: "15px", color: "#4facfe" }}>{message}</p>}

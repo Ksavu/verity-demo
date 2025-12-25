@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { WalletConnect } from "../components/WalletConnect";
+import WalletConnect from "../components/WalletConnect";
 import { ProgressBar } from "../components/ProgressBar";
 import { BuyPanel } from "../components/BuyPanel";
 import AdminPanel from "../components/AdminPanel";
 
 export default function Home() {
-  const [wallet, setWallet] = useState<string | null>(null);
+  const [wallet, setWallet] = useState<string | null>("xgvdjxb2324kjckf"); // demo wallet
 
   return (
     <div style={{
@@ -19,11 +19,15 @@ export default function Home() {
       padding: "40px 20px"
     }}>
       <img src="/logo.jpg" alt="Verity Logo" style={{ width: "150px", marginBottom: "30px" }} />
-      <h1 style={{ marginBottom: "20px" }}>$VTY Presale</h1>
+      <h1 style={{ marginBottom: "10px" }}>$VTY Token Presale</h1>
+      <p style={{ marginBottom: "30px", fontSize: "18px" }}>1 $VTY = 1 USD</p>
 
-      <WalletConnect onConnect={setWallet} />
+      <WalletConnect wallet={wallet} setWallet={setWallet} />
+
       <ProgressBar />
+
       <BuyPanel wallet={wallet} />
+
       <AdminPanel />
     </div>
   );
