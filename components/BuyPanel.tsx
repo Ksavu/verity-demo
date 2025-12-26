@@ -1,10 +1,6 @@
 "use client";
 import { useState } from "react";
-import { addBuyer } from "../lib/presale";
-
-const MIN_BUY = 50;
-const MAX_BUY = 20000;
-const REFERRAL_PERCENT = 10;
+import { addBuyer, MIN_BUY, MAX_BUY } from "../lib/presale";
 
 export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
   const [amount, setAmount] = useState(0);
@@ -12,53 +8,30 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
   const [message, setMessage] = useState("");
 
   const handleBuy = (stablecoin: string) => {
-    if (!wallet) {
-      setMessage("Connect wallet first!");
-      return;
-    }
+    if (!wallet) return setMessage("Connect wallet first!");
+    if (!referral) return setMessage("Referral code is required!");
+    if (amount < MIN_BUY || amount > MAX_BUY)
+      return setMessage(`Amount must be between ${MIN_BUY} and ${MAX_BUY} USD`);
 
-    if (amount < MIN_BUY) {
-      setMessage(`Minimum buy is $${MIN_BUY}`);
-      return;
-    }
-
-    if (amount > MAX_BUY) {
-      setMessage(`Maximum buy is $${MAX_BUY}`);
-      return;
-    }
-
-    const referralReward = referral
-      ? (amount * REFERRAL_PERCENT) / 100
-      : 0;
-
-    addBuyer(wallet, amount, referral); // demo – kasnije on-chain
-
-    setMessage(
-      referral
-        ? `You bought $${amount} $VTY with ${stablecoin}. Referral earns $${referralReward}.`
-        : `You bought $${amount} $VTY with ${stablecoin}`
-    );
-
+    addBuyer(wallet, amount, referral); // referral se prosleđuje, ali se ne prikazuje
+    setMessage(`You bought $${amount} $VTY with ${stablecoin}`);
     setAmount(0);
     setReferral("");
   };
 
   return (
-    <div
-      style={{
-        background: "#111d33",
-        padding: "30px",
-        borderRadius: "12px",
-        textAlign: "center",
-        width: "320px",
-        boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
-        marginBottom: "20px"
-      }}
-    >
-      {/* AMOUNT */}
+    <div style={{
+      background: "#111d33",
+      padding: "30px",
+      borderRadius: "12px",
+      textAlign: "center",
+      width: "320px",
+      boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
+      marginBottom: "20px"
+    }}>
       <input
         type="number"
-        placeholder={`Enter USD amount (${MIN_BUY}–${MAX_BUY})`}
+        placeholder="Enter USD amount"
         value={amount}
         onChange={(e) => setAmount(Number(e.target.value))}
         style={{
@@ -69,32 +42,22 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
           border: "1px solid #4facfe"
         }}
       />
-
-      <p style={{ fontSize: "12px", opacity: 0.7 }}>
-        Min: ${MIN_BUY} • Max: ${MAX_BUY}
-      </p>
-
-      {/* REFERRAL */}
+      
       <input
         type="text"
-        placeholder="Referral code (optional)"
+        placeholder="Enter referral code"
         value={referral}
         onChange={(e) => setReferral(e.target.value)}
         style={{
           width: "80%",
           padding: "8px",
-          marginTop: "10px",
+          margin: "10px 0",
           borderRadius: "6px",
           border: "1px solid #4facfe"
         }}
       />
 
-      <p style={{ fontSize: "12px", opacity: 0.7 }}>
-        Referral reward: {REFERRAL_PERCENT}%
-      </p>
-
-      {/* BUY BUTTONS */}
-      <div style={{ display: "flex", justifyContent: "space-around", marginTop: "15px" }}>
+      <div style={{ display: "flex", justifyContent: "space-around", marginTop: "10px" }}>
         <button
           onClick={() => handleBuy("USDT")}
           style={{
@@ -134,11 +97,7 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
         </button>
       </div>
 
-      {message && (
-        <p style={{ marginTop: "15px", color: "#4facfe" }}>
-          {message}
-        </p>
-      )}
+      {message && <p style={{ marginTop: "15px", color: "#4facfe" }}>{message}</p>}
     </div>
   );
 };
