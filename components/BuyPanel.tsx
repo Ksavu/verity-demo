@@ -4,6 +4,7 @@ import { addBuyer, MIN_BUY, MAX_BUY } from "../lib/presale";
 
 export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
   const [amount, setAmount] = useState<string>(""); // prazno po defaultu
+  const [referral, setReferral] = useState<string>(""); // obavezan referral
   const [message, setMessage] = useState("");
 
   const handleBuy = (stablecoin: string) => {
@@ -12,9 +13,13 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
     if (isNaN(numericAmount) || numericAmount <= 0) return setMessage("Enter a valid amount");
     if (numericAmount < MIN_BUY) return setMessage(`Minimum purchase is $${MIN_BUY}`);
     if (numericAmount > MAX_BUY) return setMessage(`Maximum purchase is $${MAX_BUY}`);
-    addBuyer(wallet, numericAmount);
+    if (!referral.trim()) return setMessage("Referral code is required!"); // obavezno
+
+    addBuyer(wallet, numericAmount, referral);
+
     setMessage(`You bought $${numericAmount} $VTY with ${stablecoin}`);
-    setAmount(""); // prazni input posle kupovine
+    setAmount(""); 
+    setReferral(""); 
   };
 
   return (
@@ -36,6 +41,20 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
         placeholder="Enter USD amount"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        style={{
+          width: "80%",
+          padding: "8px",
+          margin: "10px 0",
+          borderRadius: "6px",
+          border: "1px solid #4facfe"
+        }}
+      />
+
+      <input
+        type="text"
+        placeholder="Referral code (required)"
+        value={referral}
+        onChange={(e) => setReferral(e.target.value)}
         style={{
           width: "80%",
           padding: "8px",
