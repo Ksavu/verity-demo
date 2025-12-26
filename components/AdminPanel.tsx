@@ -20,6 +20,14 @@ export default function AdminPanel() {
     return () => window.removeEventListener("presale_update", refresh);
   }, []);
 
+  // Funkcija za boju referral koda
+  const getReferralColor = (code: string) => {
+    const colors = ["#4facfe", "#00f2fe", "#ff6a00", "#ee0979", "#26A17B", "#1E90FF"];
+    let hash = 0;
+    for (let i = 0; i < code.length; i++) hash += code.charCodeAt(i);
+    return colors[hash % colors.length];
+  };
+
   return (
     <div style={{
       background: "#111d33",
@@ -84,6 +92,11 @@ export default function AdminPanel() {
             >
               <span>{b.wallet.slice(0, 8)}...{b.wallet.slice(-4)}</span>
               <span>{b.amountUSD} USD</span>
+              {b.referral && (
+                <span style={{ color: getReferralColor(b.referral), fontWeight: "bold" }}>
+                  {b.referral}
+                </span>
+              )}
             </div>
           ))}
         </div>
