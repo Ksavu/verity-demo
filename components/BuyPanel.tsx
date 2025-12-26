@@ -3,20 +3,18 @@ import { useState } from "react";
 import { addBuyer, MIN_BUY, MAX_BUY } from "../lib/presale";
 
 export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
-  const [amount, setAmount] = useState(0);
-  const [referral, setReferral] = useState("");
+  const [amount, setAmount] = useState<string>(""); // prazno po defaultu
   const [message, setMessage] = useState("");
 
   const handleBuy = (stablecoin: string) => {
     if (!wallet) return setMessage("Connect wallet first!");
-    if (!referral) return setMessage("Referral code is required!");
-    if (amount < MIN_BUY || amount > MAX_BUY)
-      return setMessage(`Amount must be between ${MIN_BUY} and ${MAX_BUY} USD`);
-
-    addBuyer(wallet, amount, referral); // referral se prosleđuje, ali se ne prikazuje
-    setMessage(`You bought $${amount} $VTY with ${stablecoin}`);
-    setAmount(0);
-    setReferral("");
+    const numericAmount = Number(amount);
+    if (isNaN(numericAmount) || numericAmount <= 0) return setMessage("Enter a valid amount");
+    if (numericAmount < MIN_BUY) return setMessage(`Minimum purchase is $${MIN_BUY}`);
+    if (numericAmount > MAX_BUY) return setMessage(`Maximum purchase is $${MAX_BUY}`);
+    addBuyer(wallet, numericAmount);
+    setMessage(`You bought $${numericAmount} $VTY with ${stablecoin}`);
+    setAmount(""); // prazni input posle kupovine
   };
 
   return (
@@ -29,25 +27,15 @@ export const BuyPanel = ({ wallet }: { wallet: string | null }) => {
       boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)",
       marginBottom: "20px"
     }}>
+      <p style={{ marginBottom: "10px", fontSize: "14px", color: "#4facfe" }}>
+        Minimum: ${MIN_BUY} — Maximum: ${MAX_BUY}
+      </p>
+
       <input
         type="number"
         placeholder="Enter USD amount"
         value={amount}
-        onChange={(e) => setAmount(Number(e.target.value))}
-        style={{
-          width: "80%",
-          padding: "8px",
-          margin: "10px 0",
-          borderRadius: "6px",
-          border: "1px solid #4facfe"
-        }}
-      />
-      
-      <input
-        type="text"
-        placeholder="Enter referral code"
-        value={referral}
-        onChange={(e) => setReferral(e.target.value)}
+        onChange={(e) => setAmount(e.target.value)}
         style={{
           width: "80%",
           padding: "8px",
