@@ -35,7 +35,7 @@ export default function Home() {
         flexDirection: "column",
         alignItems: "center"
       }}>
-        <img src="/logo.jpg" alt="Verity Logo" style={{ width: "150px", marginBottom: "30px" }} />
+        <img src="/logo.png" alt="Verity Logo" style={{ width: "150px", marginBottom: "30px" }} />
         
         <h1 style={{ marginBottom: "10px" }}>VERITY Presale</h1>
         <p style={{ marginBottom: "30px", fontSize: "18px" }}>1 $VTY = 1 USD</p>
