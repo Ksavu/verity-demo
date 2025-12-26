@@ -18,10 +18,15 @@ export const addBuyer = (
   window.dispatchEvent(new Event("presale_update"));
 };
 
-export const getTotalUSD = () =>
-  buyers.reduce((acc, b) => acc + b.amountUSD, 0);
+export const getTotalUSD = () => {
+  return (
+    INITIAL_FILLED_USD +
+    buyers.reduce((acc, b) => acc + b.amountUSD, 0)
+  );
+};
 
-export const SOFTCAP = 100_000;
+export const SOFTCAP = 200_000;
 export const REFERRAL_PERCENT = 10;
 export const MIN_BUY = 50;
 export const MAX_BUY = 20_000;
+export const INITIAL_FILLED_USD = 100_000; // already filled (team / seed)
